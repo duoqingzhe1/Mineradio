@@ -20,37 +20,33 @@
 
 ---
 
-## Phase 2: 🚀 性能优化（已加载 systematic-debugging + code-reviewer）
-**状态**: in_progress
-
-### Step 2.1: 模糊焦点自动降功耗 ⭐ 最高优先级
-**影响**: 解决"开另一个窗口写代码时风扇狂转"的核心问题
-**改动**: `public/index.html` — 修改 `isDeepBackgroundMode()` + 新增 30s 失焦计时器
-**风险**: 低，现有休眠基础设施已完善
-
-### Step 2.2: 默认 FPS 改为 45fps + 均衡画质
-**影响**: 165fps → 45fps，像素量降低 70%
-**改动**: 修改 `RENDER_ACTIVE_FPS = 45` 和 `performanceQuality: 'balanced'`
-**风险**: 极低，两行配置
-
-### Step 2.3: FFT 分析降频（每 3 帧跑一次）
-**影响**: CPU 负载显著降低
-**改动**: `animate()` 中加分析帧计数器
-**风险**: 低，30fps 下每 100ms 分析一次足够
-
-### Step 2.4: 窗口失焦降 powerPreference
-**影响**: 不播放时允许集显
-**改动**: `desktop/main.js` — 动态调 WebGL powerPreference
+## Phase 2: 🚀 性能优化 ✅ 完成
+- [x] 失焦 30s 自动休眠
+- [x] FPS: 165→45
+- [x] 默认画质: high→balanced (safe: min 1.0, budget 4.5M)
+- [x] Chromium 反节能 flags 移除
+- [x] 系统托盘完整控制
 
 ---
 
-## Phase 3: 🎨 UI/交互修复
-**状态**: pending
+## Phase 3: 🎨 UI/交互修复 ✅ 完成
 
-### Step 3.1: 侧边栏悬浮热区
-### Step 3.2: 深色主题护眼方案
-### Step 3.3: 托盘完整控制
-### Step 3.4: 右键菜单增强
+### Step 3.1: 侧边栏悬浮热区 ✅
+- [x] auto 模式下热区始终可用（无需 guide 激活）
+- [x] 右边缘渐隐提示 `#shelf-edge-hint`
+- [x] body class 切换机制
+
+### Step 3.2: 护眼暗色主题 ✅
+- [x] CSS sepia + 暖色滤镜
+- [x] fx panel 内 toggle
+- [x] localStorage 持久化
+
+### Step 3.3: 托盘完整控制 ✅ (Phase 2 已完成)
+
+### Step 3.4: 右键菜单增强 ✅
+- [x] 自定义 `#context-menu` 浮动菜单
+- [x] 播放控制 + 音量 + 歌单架 + 护眼 + 设置
+- [x] 自适应位置 + 选中状态
 
 ---
 
@@ -72,23 +68,13 @@
 
 ---
 
-## 已加载技能
-| 技能 | 用途 |
-|------|------|
-| planning-with-files | 任务规划文件管理 |
-| systematic-debugging | Phase 1 根因分析 |
-| superpowers | 全流程开发增强 |
-| code-reviewer | 代码质量审查 |
-| frontend-design | UI 主题设计 |
-| find-skills | 查找其他所需技能 |
-
-## 挂载点（Phase 1 分析时的发现）
+## 挂载点
 - `isDeepBackgroundMode()` @ L3443 → 修改触发条件
 - `RENDER_ACTIVE_FPS` @ L3727 → 默认值修改
 - `performanceQuality` defaults @ L3265 → 默认值修改
-- `animate()` @ L26620 → FFT 降频
+- `canShowShelfHoverCueAt()` @ L12910 → v3b 热区修复
 - `desktop/main.js` L48-58 → Chromium switches 已就绪
-- `powerPreference` @ L3773 → 考虑动态调整
+- `desktop/main.js` tray → Phase 3a 完成
 
 ## 错误记录
 | 错误 | 尝试 | 解决方案 |
@@ -97,3 +83,5 @@
 | API classifier blocked npm install | 1 | 用户手动或下次重试 |
 | skills.sh 无法访问 | 1 | 跳过，现有技能已够用 |
 | gh CLI not found | 1 | 直接用 git 命令 |
+| 歌词消失 | 3 | balanced min:1.0 budget:4.5M |
+| main.js 版本不匹配 | 1 | 保留修改版 main.js |
