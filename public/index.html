@@ -26674,9 +26674,7 @@ function animate() {
   // 真正的 mid 乐器/和声: 3000-6000Hz → bin 140-280
   // treble: 6000Hz+ → bin 280+
   beatOnsetFlag = false;
-  // v2-performance: throttle FFT to every 3rd frame (~40% CPU savings on 165Hz screens)
-  fftFrameCounter = (fftFrameCounter || 0) + 1;
-  if (fftFrameCounter % 3 !== 0) {} else if (analyser && playing && audio && !audio.paused) {
+  if (analyser && playing && audio && !audio.paused) {
     if (audioCtx && audioCtx.state === 'suspended') resumeAudioAnalysis();
     analyser.getByteFrequencyData(frequencyData);
     analyser.getByteTimeDomainData(timeDomainData);
