@@ -3302,7 +3302,7 @@ var fxDefaults = {
   shelfBgOpacity: 0.90,
   shelfAccentColor: '#ffffff',
   performanceBackground: 'auto',
-  performanceQuality: 'high',
+  performanceQuality: 'balanced', // v2: 再降功耗 but pixelRatio >= 1.0
   liveBackgroundKeep: false,
   cam: 'off',
 };
@@ -3369,7 +3369,7 @@ var PACKAGED_DEFAULT_FX_SNAPSHOT = Object.freeze({
   desktopLyricsHighlight: false,
   desktopLyricsFps: 60,
   performanceBackground: 'auto',
-  performanceQuality: 'high',
+  performanceQuality: 'balanced', // v2: 再降功耗 but pixelRatio >= 1.0
   liveBackgroundKeep: false,
   particleLyrics: true,
   backCover: false,
@@ -3805,7 +3805,7 @@ var renderInteractionReason = '';
 function renderQualityProfile() {
   var quality = normalizePerformanceQuality(fx && fx.performanceQuality);
   if (quality === 'eco') return { cap: 0.95, min: 0.56, budget: 2400000 };
-  if (quality === 'balanced') return { cap: 1.12, min: 0.66, budget: 3800000 };
+  if (quality === 'balanced') return { cap: 1.12, min: 1.0, budget: 4500000 }; // v2: min 1.0 prevents lyrics breakage on 1440p+ screens
   if (quality === 'ultra') return { cap: 1.75, min: 0.85, budget: 7800000 };
   return { cap: RENDER_DPR_CAP, min: RENDER_MIN_DPR, budget: RENDER_PIXEL_BUDGET };
 }
