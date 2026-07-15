@@ -1,43 +1,54 @@
 # Mineradio 二创 — 进度日志
 
-## Phase 1: 根因分析 ✅ 完成
-- 读取全部 33,412 行源码
-- 定位 6 个功耗因子
-- 输出 findings.md
+## 完成状态总览
 
-## Phase 2: 性能优化 ✅ 完成并验证
-- commit 8af11f6: 渲染层优化（失焦休眠 + 45fps + balanced + FFT降频）
-- commit 161cfff: Electron Chromium flags 优化
-- commit 55446dc: 托盘完整控制 + 热键扩展
-- 歌词修复: balanced quality min:1.0 budget:4500000
-- 用户反馈: 全部正常 ✅
+| 阶段 | 内容 | 状态 |
+|------|------|------|
+| Phase 1 | 根因分析 (6个功耗因子) | ✅ |
+| Phase 2 | 性能优化 (45fps + 失焦休眠 + 托盘) | ✅ |
+| Phase 3 | UI/交互修复 (热区/护眼/右键/全屏按钮) | ✅ |
+| Phase 4.1 | 专注模式 (白噪音 + 番茄钟) | ✅ |
+| Phase 4.3 | 双语歌词 (API tlyric + 桌面歌词双语) | ✅ |
+| UI重构 | 网易云风格全局UI + 双模式切换 | ✅ |
+| Phase 5 | 测试 + 构建 | ⏳ 待做 |
 
-## Phase 3: UI/交互修复 ✅ 完成 (v3b/v3c/v3d)
+## 改动文件
 
-### 3b: 侧边栏悬浮热区
-- 修复 `canShowShelfHoverCueAt`: auto 模式下不再依赖 guide，热区始终可用
-- 新增 `#shelf-edge-hint` 右边缘渐隐提示
-- body class `shelf-auto-edge-hint` 控制提示显示
+| 文件 | 改动内容 |
+|------|---------|
+| `public/index.html` | 全局UI网易云风格重构、双模式(浏览/沉浸)、专注模式、双语歌词、护眼模式、热区、右键菜单、全屏按钮、性能优化 |
+| `public/desktop-lyrics.html` | 双语歌词译文行渲染 + cascade reveal动画 |
+| `desktop/main.js` | Chromium性能flags优化 + 系统托盘完整控制 |
+| `task_plan.md` | 任务规划文档 |
+| `progress.md` | 本文档 |
+| `findings.md` | 根因分析报告 |
 
-### 3c: 护眼暗色主题
-- CSS `body.eyecare-mode`: canvas sepia 滤镜 + 暖色背景
-- HTML toggle 在 fx panel
-- localStorage 持久化 (`fx-eyecare-mode`)
-- JS: `toggleEyecareMode()` / `applyEyecareMode()` / auto-init
+## 核心功能清单
 
-### 3d: 右键菜单增强
-- 自定义 `#context-menu` 浮动菜单
-- 操作: 播放/暂停, 下一首, 上一首, 音量+/-, 歌单架, 护眼模式, 视觉控制台
-- 自适应位置 + 选中状态指示
-- 同时响应 canvas 和 HTML UI 区域
+### 性能优化
+- 失焦30s自动休眠
+- FPS: VSYNC→45fps
+- 默认画质: high→balanced (min:1.0, budget:4.5M)
+- Chromium反节能flags移除
+- 系统托盘完整播放控制
 
-## Phase 4: 特色功能 ⏳ 待做
-- 专注模式
-- 双语歌词
-- 均衡器
-- 本地离线模式
+### UI功能
+- 侧边栏悬浮热区 (右边缘hover呼出歌单架)
+- 护眼暖色模式 (sepia滤镜 + localStorage持久化)
+- 右键增强菜单 (播放控制/音量/歌单架/护眼/设置/退出全屏)
+- 全屏三按钮 (最小化/退出全屏/关闭 — 全屏时右上角显示)
+- 网易云风格全局UI (毛玻璃/大圆角/金色强调色/胶囊按钮)
+- 浏览/沉浸双模式 (暂停→3s→浏览态; 播放→立即沉浸态)
 
-## 下一步
-1. 复制到安装目录测试
-2. Git commit + push
-3. 继续 Phase 4
+### 特色功能
+- 专注模式: 5种白噪音(Web Audio) + 25+5番茄钟 + SVG进度环
+- 双语歌词: 网易API tlyric解析 + 桌面歌词双行显示 + cascade reveal
+
+## 已知问题
+- setup_fork.js 含 GitHub token，已从最新commit移除但历史中仍有
+- npm run build:win 尚未执行
+
+## 下一步 (WorkBuddy)
+1. npm run build:win 构建 Windows 安装包
+2. 全功能回归测试
+3. 可选: Phase 4.2 音乐律动壁纸 / Phase 4.4 本地离线模式
