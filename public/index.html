@@ -22950,6 +22950,8 @@ function focusTimerReset() {
 function focusTimerComplete() {
   // 播放提示音
   playTimerBeep();
+  // v4-fix: 先清理旧interval，避免重复创建导致双倍速倒数
+  if (focusTimerInterval) { clearInterval(focusTimerInterval); focusTimerInterval = null; }
   if (focusTimerIsBreak) {
     // 休息结束，开始下一个专注
     focusTimerIsBreak = false;
@@ -22972,15 +22974,13 @@ function focusTimerComplete() {
   updateTimerUI();
   // 自动继续
   focusTimerRunning = true;
-  if (!focusTimerInterval) {
-    focusTimerInterval = setInterval(function() {
-      focusTimerSeconds--;
-      updateTimerUI();
-      if (focusTimerSeconds <= 0) {
-        focusTimerComplete();
-      }
-    }, 1000);
-  }
+  focusTimerInterval = setInterval(function() {
+    focusTimerSeconds--;
+    updateTimerUI();
+    if (focusTimerSeconds <= 0) {
+      focusTimerComplete();
+    }
+  }, 1000);
 }
 
 function updateTimerUI() {
@@ -23041,7 +23041,12 @@ function getOrCreateAudioContext() {
 function stopNoiseGenerator() {
   focusNoiseActive = false;
   if (focusNoiseSourceNodes.length) {
-    focusNoiseSourceNodes.forEach(function(n) { try { n.stop(); } catch(e) {} });
+    focusNoiseSourceNodes.forEach(function(n) {
+      try {
+        if (typeof n.stop === 'function') { n.stop(); }
+        else { n.disconnect(); }
+      } catch(e) {}
+    });
     focusNoiseSourceNodes = [];
   }
   if (focusNoiseGain) { try { focusNoiseGain.disconnect(); } catch(e) {}; focusNoiseGain = null; }
@@ -23296,16 +23301,20 @@ function setNoiseVolume(val) {
   }
 })();
 
-// 监听track变化更新focus面板
-var _origFocusHandleTrackChange = (typeof onTrackChange === 'function') ? onTrackChange : null;
-// 在track change时更新focus面板
-if (typeof playQueue !== 'undefined' && typeof currentIdx !== 'undefined') {
-  setInterval(function() {
+// v4-fix: 轮询interval保存引用，退出时清理
+var focusTrackPollInterval = null;
+function startFocusTrackPolling() {
+  if (focusTrackPollInterval) return;
+  focusTrackPollInterval = setInterval(function() {
     if (focusModeActive) {
       updateFocusPanelTrack();
     }
   }, 3000);
 }
+function stopFocusTrackPolling() {
+  if (focusTrackPollInterval) { clearInterval(focusTrackPollInterval); focusTrackPollInterval = null; }
+}
+startFocusTrackPolling();
 
 function toggleFxPanel(force) {
   var el = document.getElementById('fx-panel');
