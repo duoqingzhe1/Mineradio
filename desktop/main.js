@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, shell, screen, session, globalShortcut, dialog } = require('electron');
+const { app, BrowserWindow, Tray, Menu, ipcMain, shell, screen, session, globalShortcut, dialog, nativeImage } = require('electron');
 const net = require('net');
 const path = require('path');
 const fs = require('fs');
@@ -7,6 +7,8 @@ const { execFile, spawn } = require('child_process');
 let mainWindow = null;
 let localServer = null;
 let mainServerPort = 0;
+let appTray = null;
+let appTrayMenu = null;
 let desktopLyricsWindow = null;
 let desktopLyricsState = {};
 let desktopLyricsUserBounds = null;
@@ -1319,6 +1321,52 @@ ipcMain.handle('mineradio-wallpaper-update', async (_event, payload) => {
   }
 });
 
+// v2: 系统托盘 — 无需打开主窗口即可控制播放
+function createAppTray() {
+  if (appTray || process.platform !== 'win32') return;
+  try {
+    // 用现有 icon.ico 生成小图标
+    const iconPath = APP_ICON_ICO;
+    if (!fs.existsSync(iconPath)) return;
+    const icon = nativeImage.createFromPath(iconPath).resize({ width: 16, height: 16 });
+    appTray = new Tray(icon);
+    appTray.setToolTip('Mineradio');
+
+    function rebuildTrayMenu() {
+      const template = [
+        { label: '显示主窗口', click: () => focusMainWindow() },
+        { type: 'separator' },
+        { label: '播放 / 暂停', click: () => sendGlobalHotkeyAction('play-pause') },
+        { label: '下一首', click: () => sendGlobalHotkeyAction('next') },
+        { label: '上一首', click: () => sendGlobalHotkeyAction('prev') },
+        { label: '音量 +', click: () => sendGlobalHotkeyAction('volume-up') },
+        { label: '音量 -', click: () => sendGlobalHotkeyAction('volume-down') },
+        { type: 'separator' },
+        { label: '节能模式', type: 'checkbox', checked: false, click: (mi) => {
+          mi.checked = !mi.checked;
+          if (mainWindow && !mainWindow.isDestroyed()) {
+            mainWindow.webContents.send('mineradio-global-hotkey', { action: mi.checked ? 'power-save-on' : 'power-save-off' });
+          }
+        }},
+        { type: 'separator' },
+        { label: '退出 Mineradio', click: () => {
+          closeOverlayWindows();
+          unregisterMineradioGlobalHotkeys();
+          if (appTray) { appTray.destroy(); appTray = null; }
+          app.quit();
+        }},
+      ];
+      appTrayMenu = Menu.buildFromTemplate(template);
+      appTray.setContextMenu(appTrayMenu);
+    }
+
+    rebuildTrayMenu();
+    appTray.on('double-click', () => focusMainWindow());
+  } catch (e) {
+    console.warn('Tray creation failed:', e.message);
+  }
+}
+
 async function createWindow() {
   htmlFullscreenActive = false;
   windowFullscreenActive = false;
@@ -1441,6 +1489,7 @@ if (!gotSingleInstanceLock) {
   });
 
   app.whenReady().then(async () => {
+    createAppTray();
     screen.on('display-metrics-changed', () => {
       positionDesktopLyricsWindow();
       positionWallpaperWindow();
@@ -1463,6 +1512,7 @@ if (!gotSingleInstanceLock) {
   app.on('before-quit', () => {
     unregisterMineradioGlobalHotkeys();
     closeOverlayWindows();
+    if (appTray) { appTray.destroy(); appTray = null; }
     if (localServer && localServer.close) localServer.close();
   });
 }

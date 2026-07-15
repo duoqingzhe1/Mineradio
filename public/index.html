@@ -21925,13 +21925,16 @@ function hotkeyDuplicateMap(scope) {
   return map;
 }
 function executeHotkeyAction(actionKey, source) {
-  if (actionKey === 'togglePlay') return togglePlay();
-  if (actionKey === 'prevTrack') return prevTrack();
-  if (actionKey === 'nextTrack') return nextTrack();
-  if (actionKey === 'volumeUp') return adjustVolumeByKeyboard(0.05);
-  if (actionKey === 'volumeDown') return adjustVolumeByKeyboard(-0.05);
+  if (actionKey === 'togglePlay' || actionKey === 'play-pause') return togglePlay();
+  if (actionKey === 'prevTrack' || actionKey === 'prev') return prevTrack();
+  if (actionKey === 'nextTrack' || actionKey === 'next') return nextTrack();
+  if (actionKey === 'volumeUp' || actionKey === 'volume-up') return adjustVolumeByKeyboard(0.05);
+  if (actionKey === 'volumeDown' || actionKey === 'volume-down') return adjustVolumeByKeyboard(-0.05);
   if (actionKey === 'toggleFullscreen') return toggleFullscreen();
   if (actionKey === 'toggleDesktopLyrics') return toggleFx('desktopLyrics');
+  // v2: 托盘节能模式切换
+  if (actionKey === 'power-save-on') { cancelAutoPowerSave(); autoPowerSaveActive = true; updateRenderPowerClasses(); applyRendererPowerMode(); return; }
+  if (actionKey === 'power-save-off') { cancelAutoPowerSave(); return; }
 }
 function handleConfiguredLocalHotkey(e) {
   if (!hotkeySettings || !hotkeySettings.local || isTypingTarget(e.target)) return false;
