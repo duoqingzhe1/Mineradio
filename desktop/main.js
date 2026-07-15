@@ -37,6 +37,11 @@ const NETEASE_LOGIN_URL = 'https://music.163.com/#/login';
 const QQ_LOGIN_PARTITION = 'persist:mineradio-qqmusic-login';
 const QQ_LOGIN_URL = 'https://y.qq.com/n/ryqq/profile';
 
+// v2-performance: 移除反节能开关，保留 GPU 加速能力
+// force_high_performance_gpu: 移除 → 让 NVIDIA Optimus 按需切换集显/独显
+// disable-background-timer-throttling: 移除 → 允许 Chromium 在失焦时降频
+// disable-backgrounding-occluded-windows: 移除 → 遮挡时停止渲染
+// disable-renderer-backgrounding: 保留 → 确保后台音乐播放不被冻结
 const CHROMIUM_PERFORMANCE_SWITCHES = [
   ['autoplay-policy', 'no-user-gesture-required'],
   ['ignore-gpu-blocklist'],
@@ -44,10 +49,7 @@ const CHROMIUM_PERFORMANCE_SWITCHES = [
   ['enable-oop-rasterization'],
   ['enable-zero-copy'],
   ['enable-accelerated-2d-canvas'],
-  ['disable-background-timer-throttling'],
   ['disable-renderer-backgrounding'],
-  ['disable-backgrounding-occluded-windows'],
-  ['force_high_performance_gpu'],
   ['use-angle', 'd3d11'],
 ];
 for (const [name, value] of CHROMIUM_PERFORMANCE_SWITCHES) {
