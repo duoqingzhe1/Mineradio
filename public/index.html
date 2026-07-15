@@ -1081,6 +1081,82 @@ body.desktop-shell.diy-mode #bottom-bar.stage-mode{left:50%;width:min(1080px,cal
 }
 @keyframes fx-panel-in{0%{opacity:0;transform:translateX(32px) translateY(18px) scale(.96);filter:blur(8px)}100%{opacity:1;transform:translateX(0) translateY(0) scale(1);filter:blur(0)}}
 @keyframes fx-panel-out{0%{opacity:1;transform:translateX(0) translateY(0) scale(1);filter:blur(0)}100%{opacity:0;transform:translateX(24px) translateY(12px) scale(.97);filter:blur(6px)}}
+/* ============================================================ */
+/*  专注模式 Focus Mode                                          */
+/* ============================================================ */
+body.focus-mode-active #shelf,
+body.focus-mode-active #search-area,
+body.focus-mode-active #fx-fab,
+body.focus-mode-active #fx-fab-hide-btn,
+body.focus-mode-active #fx-panel,
+body.focus-mode-active #trial-banner,
+body.focus-mode-active #ai-depth-chip,
+body.focus-mode-active #beat-chip,
+body.focus-mode-active #hint,
+body.focus-mode-active #upload-tip,
+body.focus-mode-active #desktop-titlebar,
+body.focus-mode-active #top-right,
+body.focus-mode-active #thumb-wrap,
+body.focus-mode-active .shelf-card,
+body.focus-mode-active .home-card,
+body.focus-mode-active .home-tile,
+body.focus-mode-active .home-mosaic-cell,
+body.focus-mode-active .modal-mask{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+body.focus-mode-active .modal-mask{display:none!important}
+body.focus-mode-active #canvas-container canvas{filter:brightness(.42) saturate(.55) blur(2px)!important}
+body.focus-mode-active #custom-bg{filter:brightness(.32) saturate(.45)!important}
+body.focus-mode-active #bottom-bar.visible{opacity:0!important;pointer-events:none!important;transform:translateX(-50%) translateY(24px)!important;transition:opacity .5s,transform .5s}
+body.focus-mode-active #progress-bar{opacity:0!important;pointer-events:none!important}
+/* 专注模式主面板 - 居中毛玻璃 */
+#focus-mode-panel{position:fixed;z-index:100;top:50%;left:50%;transform:translate(-50%,-50%) scale(.92);width:min(420px,calc(100vw - 48px));max-height:min(620px,calc(100vh - 80px));overflow-y:auto;background:linear-gradient(160deg,rgba(30,22,14,.92),rgba(20,14,8,.94));border:1px solid rgba(210,160,80,.22);border-radius:24px;padding:28px 24px 24px;backdrop-filter:blur(48px) saturate(1.2);-webkit-backdrop-filter:blur(48px) saturate(1.2);box-shadow:0 24px 80px rgba(0,0,0,.48),0 0 60px rgba(200,150,60,.08),inset 0 1px 0 rgba(255,255,255,.08);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .52s cubic-bezier(.16,1,.3,1),transform .52s cubic-bezier(.16,1,.3,1),visibility 0s linear .52s}
+body.focus-mode-active #focus-mode-panel{opacity:1;visibility:visible;pointer-events:auto;transform:translate(-50%,-50%) scale(1);transition:opacity .52s cubic-bezier(.16,1,.3,1),transform .52s cubic-bezier(.16,1,.3,1),visibility 0s linear 0s}
+#focus-mode-panel::-webkit-scrollbar{width:3px}
+#focus-mode-panel::-webkit-scrollbar-thumb{background:rgba(210,160,80,.28);border-radius:3px}
+/* 面板头部 */
+.focus-panel-header{display:flex;align-items:center;gap:14px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid rgba(210,160,80,.12)}
+.focus-panel-cover{width:52px;height:52px;border-radius:12px;flex-shrink:0;background:rgba(255,255,255,.04);border:1px solid rgba(210,160,80,.16);overflow:hidden}
+.focus-panel-cover img{width:100%;height:100%;object-fit:cover;display:block}
+.focus-panel-cover.empty{display:flex;align-items:center;justify-content:center;font-size:22px;color:rgba(210,160,80,.3)}
+.focus-panel-info{min-width:0;flex:1}
+.focus-panel-title{font-size:14px;font-weight:600;color:rgba(255,240,220,.92);letter-spacing:.4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.focus-panel-artist{font-size:11px;color:rgba(210,160,80,.56);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* 计时器区域 */
+.focus-timer-section{display:flex;flex-direction:column;align-items:center;margin-bottom:20px}
+.focus-timer-ring{position:relative;width:140px;height:140px;margin-bottom:12px}
+.focus-timer-ring svg{transform:rotate(-90deg);width:100%;height:100%}
+.focus-timer-ring .ring-bg{fill:none;stroke:rgba(210,160,80,.10);stroke-width:6}
+.focus-timer-ring .ring-fill{fill:none;stroke:#d2a050;stroke-width:6;stroke-linecap:round;transition:stroke-dashoffset .9s linear}
+.focus-timer-ring .ring-fill.break{stroke:#6abf8a}
+.focus-timer-display{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.focus-timer-time{font-size:32px;font-weight:700;color:rgba(255,240,220,.94);letter-spacing:2px;font-variant-numeric:tabular-nums}
+.focus-timer-label{font-size:10px;color:rgba(210,160,80,.6);letter-spacing:1.2px;text-transform:uppercase;margin-top:2px}
+.focus-timer-actions{display:flex;gap:10px;margin-top:4px}
+.focus-timer-btn{width:38px;height:38px;border-radius:50%;border:1px solid rgba(210,160,80,.24);background:rgba(210,160,80,.06);color:rgba(255,240,220,.78);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .22s}
+.focus-timer-btn:hover{background:rgba(210,160,80,.16);border-color:rgba(210,160,80,.4);color:#fff;transform:translateY(-1px)}
+.focus-timer-btn:active{transform:scale(.94)}
+.focus-timer-btn.primary{background:rgba(210,160,80,.18);border-color:rgba(210,160,80,.44);color:#fff}
+/* 白噪音选择器 */
+.focus-noise-section{margin-bottom:16px}
+.focus-noise-label{font-size:10px;color:rgba(210,160,80,.48);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.focus-noise-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.focus-noise-chip{position:relative;padding:10px 4px 8px;border-radius:10px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);cursor:pointer;text-align:center;font-size:10px;color:rgba(255,240,220,.5);transition:all .22s;display:flex;flex-direction:column;align-items:center;gap:4px}
+.focus-noise-chip:hover{border-color:rgba(210,160,80,.24);background:rgba(210,160,80,.04);color:rgba(255,240,220,.78)}
+.focus-noise-chip.active{border-color:rgba(210,160,80,.54);background:rgba(210,160,80,.1);color:#fff;box-shadow:0 0 12px rgba(210,160,80,.12)}
+.focus-noise-chip .noise-icon{font-size:18px}
+.focus-noise-chip .noise-name{font-size:9px;letter-spacing:.3px}
+/* 白噪音音量 */
+.focus-noise-volume{display:flex;align-items:center;gap:10px;margin-top:10px}
+.focus-noise-volume input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:4px;border-radius:2px;background:rgba(210,160,80,.14);outline:none}
+.focus-noise-volume input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:16px;height:16px;border-radius:50%;background:#d2a050;cursor:pointer;box-shadow:0 0 8px rgba(210,160,80,.3)}
+.focus-noise-volume span{font-size:9px;color:rgba(210,160,80,.5);min-width:30px;text-align:right}
+/* 退出专注按钮 */
+.focus-exit-btn{width:100%;margin-top:16px;padding:10px 0;border-radius:12px;border:1px solid rgba(210,160,80,.2);background:rgba(210,160,80,.06);color:rgba(255,240,220,.64);font-size:12px;letter-spacing:.8px;cursor:pointer;transition:all .22s}
+.focus-exit-btn:hover{border-color:rgba(255,100,80,.4);background:rgba(255,100,80,.08);color:#ff8a78}
+/* 专注模式切换按钮（fx-panel内） */
+.focus-mode-toggle-btn{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;border:1px solid rgba(210,160,80,.18);background:rgba(210,160,80,.04);color:rgba(255,240,220,.64);font-size:11px;cursor:pointer;transition:all .22s;width:100%;justify-content:center;margin-top:4px}
+.focus-mode-toggle-btn:hover{border-color:rgba(210,160,80,.36);background:rgba(210,160,80,.08);color:#fff}
+.focus-mode-toggle-btn .focus-icon{font-size:15px}
+body.focus-mode-active .focus-mode-toggle-btn{border-color:rgba(210,160,80,.44);background:rgba(210,160,80,.12);color:#d2a050}
 .fx-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;padding-bottom:13px;border-bottom:1px solid rgba(255,255,255,.065)}
 .fx-head-main{min-width:0}
 .fx-head-actions{display:flex;align-items:center;gap:7px;margin-left:12px;flex:0 0 auto}
@@ -1989,10 +2065,60 @@ body.power-save-active .power-save-indicator {
   <div class="ctx-item" data-action="toggle-eyecare" role="menuitem">
     <span class="ctx-icon">🌙</span><span class="ctx-label ctx-check">护眼模式</span>
   </div>
+  <div class="ctx-item" data-action="toggle-focus" role="menuitem">
+    <span class="ctx-icon">🧘</span><span class="ctx-label ctx-check">专注模式</span>
+  </div>
   <div class="ctx-sep"></div>
   <div class="ctx-item" data-action="fx-panel" role="menuitem">
     <span class="ctx-icon">⚙</span><span class="ctx-label">视觉控制台</span>
   </div>
+</div>
+
+<!-- v4: 专注模式面板 -->
+<div id="focus-mode-panel" aria-hidden="true">
+  <div class="focus-panel-header">
+    <div class="focus-panel-cover empty" id="focus-panel-cover">🎵</div>
+    <div class="focus-panel-info">
+      <div class="focus-panel-title" id="focus-panel-title">未在播放</div>
+      <div class="focus-panel-artist" id="focus-panel-artist">--</div>
+    </div>
+  </div>
+
+  <div class="focus-timer-section">
+    <div class="focus-timer-ring">
+      <svg viewBox="0 0 140 140">
+        <circle class="ring-bg" cx="70" cy="70" r="62"/>
+        <circle class="ring-fill" id="focus-timer-ring-fill" cx="70" cy="70" r="62" stroke-dasharray="389.56" stroke-dashoffset="0"/>
+      </svg>
+      <div class="focus-timer-display">
+        <div class="focus-timer-time" id="focus-timer-time">25:00</div>
+        <div class="focus-timer-label" id="focus-timer-label">专注</div>
+      </div>
+    </div>
+    <div class="focus-timer-actions">
+      <button class="focus-timer-btn primary" id="focus-timer-start-btn" onclick="focusTimerStart()" title="开始">▶</button>
+      <button class="focus-timer-btn" id="focus-timer-pause-btn" onclick="focusTimerPause()" title="暂停" style="display:none">⏸</button>
+      <button class="focus-timer-btn" onclick="focusTimerReset()" title="重置">↺</button>
+    </div>
+  </div>
+
+  <div class="focus-noise-section">
+    <div class="focus-noise-label">白噪音</div>
+    <div class="focus-noise-grid" id="focus-noise-grid">
+      <div class="focus-noise-chip active" data-noise="rain" onclick="setNoisePreset('rain')"><span class="noise-icon">🌧</span><span class="noise-name">雨声</span></div>
+      <div class="focus-noise-chip" data-noise="ocean" onclick="setNoisePreset('ocean')"><span class="noise-icon">🌊</span><span class="noise-name">海浪</span></div>
+      <div class="focus-noise-chip" data-noise="campfire" onclick="setNoisePreset('campfire')"><span class="noise-icon">🔥</span><span class="noise-name">篝火</span></div>
+      <div class="focus-noise-chip" data-noise="cafe" onclick="setNoisePreset('cafe')"><span class="noise-icon">☕</span><span class="noise-name">咖啡馆</span></div>
+      <div class="focus-noise-chip" data-noise="white" onclick="setNoisePreset('white')"><span class="noise-icon">📡</span><span class="noise-name">白噪音</span></div>
+    </div>
+    <div class="focus-noise-volume">
+      <span>🔈</span>
+      <input type="range" id="focus-noise-volume" min="0" max="1" step="0.01" value="0.35" oninput="setNoiseVolume(this.value)">
+      <span id="focus-noise-volume-label">35%</span>
+    </div>
+  </div>
+
+  <button class="focus-exit-btn" onclick="exitFocusMode()">退出专注模式</button>
 </div>
 
 <!-- 顶部搜索 -->
@@ -2323,6 +2449,9 @@ body.power-save-active .power-save-indicator {
       <div class="fx-toggle-grid">
         <div class="fx-toggle" id="t-eyecareMode" onclick="toggleEyecareMode()" title="降低蓝光，暖色显示，适合夜间使用"><span>🌙 护眼暖色</span><span class="dot"></span></div>
       </div>
+
+      <div class="fx-section-label">专注模式</div>
+      <button class="focus-mode-toggle-btn" id="focus-mode-toggle-btn" onclick="toggleFocusMode()" title="专注模式：白噪音 + 番茄钟"><span class="focus-icon">🧘</span><span id="focus-mode-toggle-text">进入专注模式</span></button>
     </div>
   </div>
 
@@ -15081,6 +15210,7 @@ function showContextMenu(e) {
     item.classList.remove('checked');
     if (action === 'toggle-shelf' && shelfPinnedOpen) item.classList.add('checked');
     if (action === 'toggle-eyecare' && document.body.classList.contains('eyecare-mode')) item.classList.add('checked');
+    if (action === 'toggle-focus' && document.body.classList.contains('focus-mode-active')) item.classList.add('checked');
   });
   // 自适应位置
   var x = e.clientX, y = e.clientY;
@@ -15112,6 +15242,7 @@ function handleContextMenuAction(action) {
     case 'volume-down': if (typeof adjustVolumeByKeyboard === 'function') adjustVolumeByKeyboard(-0.05); break;
     case 'toggle-shelf': if (typeof setShelfPinnedOpen === 'function') setShelfPinnedOpen(!shelfPinnedOpen, true); break;
     case 'toggle-eyecare': if (typeof toggleEyecareMode === 'function') toggleEyecareMode(); break;
+    case 'toggle-focus': if (typeof toggleFocusMode === 'function') toggleFocusMode(); break;
     case 'fx-panel': if (typeof toggleFxPanel === 'function') toggleFxPanel(); break;
   }
 }
@@ -18897,6 +19028,7 @@ function nextTrack() {
   if (playMode === 'shuffle') currentIdx = Math.floor(Math.random() * playQueue.length);
   else currentIdx = (currentIdx + 1) % playQueue.length;
   Promise.resolve(playQueueAt(currentIdx)).finally(forcePlaybackControlsInteractive);
+  if (focusModeActive) updateFocusPanelTrack();
 }
 function prevTrack() {
   if (!playQueue.length) return;
@@ -18904,6 +19036,7 @@ function prevTrack() {
   forcePlaybackControlsInteractive();
   currentIdx = (currentIdx - 1 + playQueue.length) % playQueue.length;
   Promise.resolve(playQueueAt(currentIdx)).finally(forcePlaybackControlsInteractive);
+  if (focusModeActive) updateFocusPanelTrack();
 }
 function shuffleQueue() {
   for (var i = playQueue.length - 1; i > 0; i--) {
@@ -22627,6 +22760,553 @@ function toggleEyecareMode() {
 (function initEyecareMode() {
   if (readEyecareMode()) applyEyecareMode(true);
 })();
+
+// ============================================================
+// v4: 专注模式 Focus Mode — 番茄钟 + 白噪音
+// ============================================================
+var FOCUS_MODE_STORE_KEY = 'fx-focus-mode';
+var focusModeActive = false;
+var focusTimerInterval = null;
+var focusTimerSeconds = 0;
+var focusTimerRunning = false;
+var focusTimerIsBreak = false;
+var FOCUS_WORK_SECONDS = 25 * 60;
+var FOCUS_BREAK_SECONDS = 5 * 60;
+var focusNoisePreset = 'rain';
+var focusNoiseVolume = 0.35;
+var focusNoiseAudioCtx = null;
+var focusNoiseGain = null;
+var focusNoiseSourceNodes = [];
+var focusNoiseActive = false;
+var focusPrevDiyMode = false;
+
+function readFocusMode() { try { return localStorage.getItem(FOCUS_MODE_STORE_KEY) === 'true'; } catch(e) { return false; } }
+function saveFocusMode(on) { try { localStorage.setItem(FOCUS_MODE_STORE_KEY, String(!!on)); } catch(e) {} }
+function readFocusNoisePreset() { try { return localStorage.getItem(FOCUS_MODE_STORE_KEY + '-noise') || 'rain'; } catch(e) { return 'rain'; } }
+function saveFocusNoisePreset(p) { try { localStorage.setItem(FOCUS_MODE_STORE_KEY + '-noise', p); } catch(e) {} }
+function readFocusNoiseVolume() { try { var v = parseFloat(localStorage.getItem(FOCUS_MODE_STORE_KEY + '-vol')); return isNaN(v) ? 0.35 : Math.max(0, Math.min(1, v)); } catch(e) { return 0.35; } }
+function saveFocusNoiseVolume(v) { try { localStorage.setItem(FOCUS_MODE_STORE_KEY + '-vol', String(v)); } catch(e) {} }
+
+// 打开专注模式
+function enterFocusMode() {
+  if (focusModeActive) return;
+  focusModeActive = true;
+  focusPrevDiyMode = diyPlayerMode;
+
+  // 确保进入diy模式以使用focus panel
+  if (!diyPlayerMode) {
+    applyDiyMode(true, { save: false, toast: false });
+  }
+
+  document.body.classList.add('focus-mode-active');
+  saveFocusMode(true);
+
+  // 更新track信息
+  updateFocusPanelTrack();
+
+  // 读取并设置白噪音预设
+  focusNoisePreset = readFocusNoisePreset();
+  focusNoiseVolume = readFocusNoiseVolume();
+  updateNoiseChipUI();
+  var noiseVolSlider = document.getElementById('focus-noise-volume');
+  if (noiseVolSlider) noiseVolSlider.value = focusNoiseVolume;
+  var noiseVolLabel = document.getElementById('focus-noise-volume-label');
+  if (noiseVolLabel) noiseVolLabel.textContent = Math.round(focusNoiseVolume * 100) + '%';
+
+  // 重置计时器
+  focusTimerReset();
+
+  // 启动白噪音
+  startNoiseGenerator();
+
+  // 更新toggle按钮
+  var btn = document.getElementById('focus-mode-toggle-btn');
+  var label = document.getElementById('focus-mode-toggle-text');
+  if (btn) btn.classList.add('on');
+  if (label) label.textContent = '退出专注模式';
+
+  // 隐藏tooltip等
+  var hint = document.getElementById('hint');
+  if (hint) hint.style.display = 'none';
+
+  showToast('🧘 专注模式已开启');
+}
+
+// 关闭专注模式
+function exitFocusMode() {
+  if (!focusModeActive) return;
+  focusModeActive = false;
+
+  document.body.classList.remove('focus-mode-active');
+  saveFocusMode(false);
+
+  // 停止计时器
+  focusTimerPause();
+  focusTimerInterval = null;
+
+  // 停止白噪音
+  stopNoiseGenerator();
+
+  // 恢复diy模式
+  if (!focusPrevDiyMode && typeof applyDiyMode === 'function') {
+    applyDiyMode(false, { save: false, toast: false });
+  }
+
+  // 更新toggle按钮
+  var btn = document.getElementById('focus-mode-toggle-btn');
+  var label = document.getElementById('focus-mode-toggle-text');
+  if (btn) btn.classList.remove('on');
+  if (label) label.textContent = '进入专注模式';
+
+  // 恢复hint
+  var hint = document.getElementById('hint');
+  if (hint) hint.style.display = '';
+
+  showToast('专注模式已关闭');
+}
+
+// 切换专注模式
+function toggleFocusMode() {
+  if (focusModeActive) {
+    exitFocusMode();
+  } else {
+    enterFocusMode();
+  }
+}
+
+// 更新专注面板track信息
+function updateFocusPanelTrack() {
+  var titleEl = document.getElementById('focus-panel-title');
+  var artistEl = document.getElementById('focus-panel-artist');
+  var coverEl = document.getElementById('focus-panel-cover');
+  try {
+    var track = playQueue && playQueue.length > currentIdx && currentIdx >= 0 ? playQueue[currentIdx] : null;
+    if (track) {
+      if (titleEl) titleEl.textContent = track.name || track.title || '未知歌曲';
+      if (artistEl) artistEl.textContent = (track.ar && track.ar.length ? track.ar.map(function(a){return a.name;}).join(' / ') : (track.artist || '未知艺术家'));
+      if (coverEl) {
+        var coverUrl = '';
+        if (track.al && track.al.picUrl) coverUrl = track.al.picUrl;
+        else if (track.cover) coverUrl = track.cover;
+        if (coverUrl) {
+          coverEl.classList.remove('empty');
+          coverEl.innerHTML = '<img src="' + coverUrl + '" alt="" onerror="this.parentElement.classList.add(\'empty\');this.parentElement.innerHTML=\'🎵\';">';
+        } else {
+          coverEl.classList.add('empty');
+          coverEl.innerHTML = '🎵';
+        }
+      }
+    } else {
+      if (titleEl) titleEl.textContent = '未在播放';
+      if (artistEl) artistEl.textContent = '--';
+      if (coverEl) { coverEl.classList.add('empty'); coverEl.innerHTML = '🎵'; }
+    }
+  } catch(e) {}
+}
+
+// ---- Pomodoro 计时器 ----
+
+function focusTimerStart() {
+  if (focusTimerRunning) return;
+  // 如果计时器为0，先重置
+  if (focusTimerSeconds <= 0) {
+    focusTimerSeconds = focusTimerIsBreak ? FOCUS_BREAK_SECONDS : FOCUS_WORK_SECONDS;
+  }
+  focusTimerRunning = true;
+  updateTimerUI();
+  var startBtn = document.getElementById('focus-timer-start-btn');
+  var pauseBtn = document.getElementById('focus-timer-pause-btn');
+  if (startBtn) startBtn.style.display = 'none';
+  if (pauseBtn) pauseBtn.style.display = '';
+  focusTimerInterval = setInterval(function() {
+    focusTimerSeconds--;
+    updateTimerUI();
+    if (focusTimerSeconds <= 0) {
+      focusTimerComplete();
+    }
+  }, 1000);
+}
+
+function focusTimerPause() {
+  focusTimerRunning = false;
+  if (focusTimerInterval) { clearInterval(focusTimerInterval); focusTimerInterval = null; }
+  var startBtn = document.getElementById('focus-timer-start-btn');
+  var pauseBtn = document.getElementById('focus-timer-pause-btn');
+  if (startBtn) startBtn.style.display = '';
+  if (pauseBtn) pauseBtn.style.display = 'none';
+}
+
+function focusTimerReset() {
+  focusTimerPause();
+  focusTimerIsBreak = false;
+  focusTimerSeconds = FOCUS_WORK_SECONDS;
+  updateTimerUI();
+  var ring = document.getElementById('focus-timer-ring-fill');
+  if (ring) { ring.classList.remove('break'); ring.style.strokeDashoffset = '0'; }
+  var label = document.getElementById('focus-timer-label');
+  if (label) label.textContent = '专注';
+}
+
+function focusTimerComplete() {
+  // 播放提示音
+  playTimerBeep();
+  if (focusTimerIsBreak) {
+    // 休息结束，开始下一个专注
+    focusTimerIsBreak = false;
+    focusTimerSeconds = FOCUS_WORK_SECONDS;
+    var ring = document.getElementById('focus-timer-ring-fill');
+    if (ring) ring.classList.remove('break');
+    var label = document.getElementById('focus-timer-label');
+    if (label) label.textContent = '专注';
+    showToast('休息结束，开始专注！');
+  } else {
+    // 专注结束，开始休息
+    focusTimerIsBreak = true;
+    focusTimerSeconds = FOCUS_BREAK_SECONDS;
+    var ring2 = document.getElementById('focus-timer-ring-fill');
+    if (ring2) ring2.classList.add('break');
+    var label2 = document.getElementById('focus-timer-label');
+    if (label2) label2.textContent = '休息';
+    showToast('专注完成！休息一下吧~');
+  }
+  updateTimerUI();
+  // 自动继续
+  focusTimerRunning = true;
+  if (!focusTimerInterval) {
+    focusTimerInterval = setInterval(function() {
+      focusTimerSeconds--;
+      updateTimerUI();
+      if (focusTimerSeconds <= 0) {
+        focusTimerComplete();
+      }
+    }, 1000);
+  }
+}
+
+function updateTimerUI() {
+  var total = focusTimerIsBreak ? FOCUS_BREAK_SECONDS : FOCUS_WORK_SECONDS;
+  var remaining = Math.max(0, focusTimerSeconds);
+  var mins = Math.floor(remaining / 60);
+  var secs = remaining % 60;
+  var timeEl = document.getElementById('focus-timer-time');
+  if (timeEl) timeEl.textContent = String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+  // 更新环形进度
+  var ring = document.getElementById('focus-timer-ring-fill');
+  if (ring) {
+    var circumference = 389.56; // 2 * PI * 62
+    var progress = total > 0 ? remaining / total : 1;
+    ring.style.strokeDashoffset = String(circumference * (1 - progress));
+  }
+}
+
+// 简易提示音 (Web Audio)
+function playTimerBeep() {
+  try {
+    var ctx = focusNoiseAudioCtx || (window.AudioContext ? new AudioContext() : (window.webkitAudioContext ? new webkitAudioContext() : null));
+    if (!ctx) return;
+    var osc = ctx.createOscillator();
+    var gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.type = 'sine';
+    gain.gain.value = 0.22;
+    var now = ctx.currentTime;
+    // 三连音提示
+    osc.frequency.setValueAtTime(880, now);
+    osc.frequency.setValueAtTime(0, now + 0.15);
+    osc.frequency.setValueAtTime(880, now + 0.22);
+    osc.frequency.setValueAtTime(0, now + 0.37);
+    osc.frequency.setValueAtTime(1100, now + 0.44);
+    gain.gain.setValueAtTime(0.22, now);
+    gain.gain.linearRampToValueAtTime(0, now + 0.7);
+    osc.start(now);
+    osc.stop(now + 0.72);
+  } catch(e) {}
+}
+
+// ---- 白噪音生成器 (Web Audio API) ----
+
+function getOrCreateAudioContext() {
+  if (!focusNoiseAudioCtx) {
+    try {
+      focusNoiseAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    } catch(e) { return null; }
+  }
+  if (focusNoiseAudioCtx.state === 'suspended') {
+    focusNoiseAudioCtx.resume();
+  }
+  return focusNoiseAudioCtx;
+}
+
+function stopNoiseGenerator() {
+  focusNoiseActive = false;
+  if (focusNoiseSourceNodes.length) {
+    focusNoiseSourceNodes.forEach(function(n) { try { n.stop(); } catch(e) {} });
+    focusNoiseSourceNodes = [];
+  }
+  if (focusNoiseGain) { try { focusNoiseGain.disconnect(); } catch(e) {}; focusNoiseGain = null; }
+  // 不关闭AudioContext，保留给beep复用
+}
+
+function startNoiseGenerator() {
+  stopNoiseGenerator();
+  var ctx = getOrCreateAudioContext();
+  if (!ctx) return;
+  focusNoiseActive = true;
+  focusNoiseGain = ctx.createGain();
+  focusNoiseGain.gain.value = focusNoiseVolume;
+  focusNoiseGain.connect(ctx.destination);
+
+  switch (focusNoisePreset) {
+    case 'rain': createRainNoise(ctx, focusNoiseGain); break;
+    case 'ocean': createOceanNoise(ctx, focusNoiseGain); break;
+    case 'campfire': createCampfireNoise(ctx, focusNoiseGain); break;
+    case 'cafe': createCafeNoise(ctx, focusNoiseGain); break;
+    case 'white':
+    default: createWhiteNoise(ctx, focusNoiseGain); break;
+  }
+}
+
+// 生成噪声buffer
+function createNoiseBuffer(ctx, duration) {
+  var sampleRate = ctx.sampleRate;
+  var length = Math.floor(sampleRate * (duration || 2));
+  var buffer = ctx.createBuffer(1, length, sampleRate);
+  var data = buffer.getChannelData(0);
+  for (var i = 0; i < length; i++) {
+    data[i] = Math.random() * 2 - 1;
+  }
+  return buffer;
+}
+
+// Rain: 滤波噪声 + 低频调制
+function createRainNoise(ctx, dest) {
+  var buffer = createNoiseBuffer(ctx, 3);
+  var source = ctx.createBufferSource();
+  source.buffer = buffer;
+  source.loop = true;
+  // 带通滤波，模拟雨声频段
+  var bp = ctx.createBiquadFilter();
+  bp.type = 'bandpass';
+  bp.frequency.value = 2800;
+  bp.Q.value = 0.6;
+  // 高通去掉低频
+  var hp = ctx.createBiquadFilter();
+  hp.type = 'highpass';
+  hp.frequency.value = 800;
+  // LFO调制
+  var lfo = ctx.createOscillator();
+  var lfoGain = ctx.createGain();
+  lfo.frequency.value = 0.4;
+  lfoGain.gain.value = 200;
+  lfo.connect(lfoGain);
+  lfoGain.connect(bp.frequency);
+  lfo.start();
+  source.connect(hp);
+  hp.connect(bp);
+  bp.connect(dest);
+  source.start();
+  focusNoiseSourceNodes.push(source, lfo);
+}
+
+// Ocean: 慢幅度调制 + 低通噪声
+function createOceanNoise(ctx, dest) {
+  var buffer = createNoiseBuffer(ctx, 4);
+  var source = ctx.createBufferSource();
+  source.buffer = buffer;
+  source.loop = true;
+  var lp = ctx.createBiquadFilter();
+  lp.type = 'lowpass';
+  lp.frequency.value = 500;
+  lp.Q.value = 0.5;
+  // 慢LFO调制音量模拟海浪
+  var lfo = ctx.createOscillator();
+  var lfoGain = ctx.createGain();
+  var modGain = ctx.createGain();
+  lfo.frequency.value = 0.08;
+  lfoGain.gain.value = 0.35;
+  modGain.gain.value = 0.65;
+  lfo.connect(lfoGain);
+  lfoGain.connect(modGain.gain);
+  lfo.start();
+  source.connect(lp);
+  lp.connect(modGain);
+  modGain.connect(dest);
+  source.start();
+  focusNoiseSourceNodes.push(source, lfo);
+}
+
+// Campfire: 稀疏噪声脉冲 + 低频嗡鸣
+function createCampfireNoise(ctx, dest) {
+  // 低频嗡鸣
+  var osc = ctx.createOscillator();
+  var oscGain = ctx.createGain();
+  osc.type = 'triangle';
+  osc.frequency.value = 85;
+  oscGain.gain.value = 0.08;
+  osc.connect(oscGain);
+  oscGain.connect(dest);
+  osc.start();
+  focusNoiseSourceNodes.push(osc);
+  // 爆裂声：用scriptProcessor或定时脉冲
+  createCrackleNoise(ctx, dest);
+}
+
+function createCrackleNoise(ctx, dest) {
+  // 使用周期噪声脉冲模拟爆裂
+  var bufferSize = 4096;
+  var scriptNode = ctx.createScriptProcessor ? ctx.createScriptProcessor(bufferSize, 1, 1) : null;
+  if (!scriptNode) {
+    // fallback: 低频脉冲
+    var bp = ctx.createBiquadFilter();
+    bp.type = 'bandpass';
+    bp.frequency.value = 2200;
+    bp.Q.value = 1.2;
+    var hp = ctx.createBiquadFilter();
+    hp.type = 'highpass';
+    hp.frequency.value = 600;
+    var buffer = createNoiseBuffer(ctx, 2);
+    var source = ctx.createBufferSource();
+    source.buffer = buffer;
+    source.loop = true;
+    var pulseGain = ctx.createGain();
+    pulseGain.gain.value = 0.12;
+    // 快速LFO制造稀疏感
+    var lfo = ctx.createOscillator();
+    var lfoGain = ctx.createGain();
+    lfo.type = 'square';
+    lfo.frequency.value = 7;
+    lfoGain.gain.value = 0.12;
+    lfo.connect(lfoGain);
+    lfoGain.connect(pulseGain.gain);
+    lfo.start();
+    source.connect(hp);
+    hp.connect(bp);
+    bp.connect(pulseGain);
+    pulseGain.connect(dest);
+    source.start();
+    focusNoiseSourceNodes.push(source, lfo);
+    return;
+  }
+  scriptNode.onaudioprocess = function(e) {
+    var output = e.outputBuffer.getChannelData(0);
+    for (var i = 0; i < output.length; i++) {
+      if (Math.random() < 0.003) {
+        output[i] = (Math.random() * 2 - 1) * 0.25;
+      } else {
+        output[i] = 0;
+      }
+    }
+  };
+  scriptNode.connect(dest);
+  focusNoiseSourceNodes.push(scriptNode);
+}
+
+// Cafe: 多层噪声 + 偶尔脉冲
+function createCafeNoise(ctx, dest) {
+  // 底层白噪声
+  var buffer = createNoiseBuffer(ctx, 3);
+  var source1 = ctx.createBufferSource();
+  source1.buffer = buffer;
+  source1.loop = true;
+  var lp1 = ctx.createBiquadFilter();
+  lp1.type = 'lowpass';
+  lp1.frequency.value = 1500;
+  var gain1 = ctx.createGain();
+  gain1.gain.value = 0.2;
+  source1.connect(lp1);
+  lp1.connect(gain1);
+  gain1.connect(dest);
+  source1.start();
+  focusNoiseSourceNodes.push(source1);
+  // 第二层更低的噪声
+  var source2 = ctx.createBufferSource();
+  source2.buffer = buffer;
+  source2.loop = true;
+  var bp2 = ctx.createBiquadFilter();
+  bp2.type = 'bandpass';
+  bp2.frequency.value = 800;
+  bp2.Q.value = 0.4;
+  var gain2 = ctx.createGain();
+  gain2.gain.value = 0.12;
+  source2.connect(bp2);
+  bp2.connect(gain2);
+  gain2.connect(dest);
+  source2.start();
+  focusNoiseSourceNodes.push(source2);
+  // 偶发脉冲（杯碟声）
+  var lfo = ctx.createOscillator();
+  var lfoGain = ctx.createGain();
+  lfo.type = 'sawtooth';
+  lfo.frequency.value = 0.35;
+  lfoGain.gain.value = 0.04;
+  lfo.connect(lfoGain);
+  lfoGain.connect(dest);
+  lfo.start();
+  focusNoiseSourceNodes.push(lfo);
+}
+
+// White: 纯白噪声
+function createWhiteNoise(ctx, dest) {
+  var buffer = createNoiseBuffer(ctx, 3);
+  var source = ctx.createBufferSource();
+  source.buffer = buffer;
+  source.loop = true;
+  source.connect(dest);
+  source.start();
+  focusNoiseSourceNodes.push(source);
+}
+
+// 切换白噪音预设
+function setNoisePreset(preset) {
+  focusNoisePreset = preset;
+  saveFocusNoisePreset(preset);
+  updateNoiseChipUI();
+  if (focusModeActive && focusNoiseActive) {
+    startNoiseGenerator();
+  }
+}
+
+function updateNoiseChipUI() {
+  var chips = document.querySelectorAll('#focus-noise-grid .focus-noise-chip');
+  chips.forEach(function(chip) {
+    chip.classList.toggle('active', chip.getAttribute('data-noise') === focusNoisePreset);
+  });
+}
+
+// 设置白噪音音量
+function setNoiseVolume(val) {
+  focusNoiseVolume = parseFloat(val);
+  saveFocusNoiseVolume(focusNoiseVolume);
+  if (focusNoiseGain) {
+    focusNoiseGain.gain.value = focusNoiseVolume;
+  }
+  var label = document.getElementById('focus-noise-volume-label');
+  if (label) label.textContent = Math.round(focusNoiseVolume * 100) + '%';
+}
+
+// 初始化专注模式
+(function initFocusMode() {
+  // 页面加载不自动进入，但恢复之前的状态标记
+  if (readFocusMode()) {
+    // 之前开启过，但不自动进入（避免打扰）
+    // 只恢复噪声和音量预设
+    focusNoisePreset = readFocusNoisePreset();
+    focusNoiseVolume = readFocusNoiseVolume();
+  }
+})();
+
+// 监听track变化更新focus面板
+var _origFocusHandleTrackChange = (typeof onTrackChange === 'function') ? onTrackChange : null;
+// 在track change时更新focus面板
+if (typeof playQueue !== 'undefined' && typeof currentIdx !== 'undefined') {
+  setInterval(function() {
+    if (focusModeActive) {
+      updateFocusPanelTrack();
+    }
+  }, 3000);
+}
+
 function toggleFxPanel(force) {
   var el = document.getElementById('fx-panel');
   if (!el) return;
